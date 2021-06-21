@@ -35,6 +35,7 @@ function showValues() {
     all.forEach(item => {
       item.innerHTML = ''
     });
+
     let numTelevision = list.reduce(((accumulator, currentValue) => currentValue.type !== 'Movie' && currentValue.status !== 'Plan to Watch' ? accumulator + 1 : accumulator), 0);
     $('#numTelevision').append(numTelevision);
     let numWatched = list.reduce(((accumulator, currentValue) => currentValue.status == 'Watching' ? accumulator + 1 : accumulator), 0)
@@ -45,17 +46,13 @@ function showValues() {
     $('#numMovies').append(numMovies)
     let numPlanning = list.reduce(((accumulator, currentValue) => currentValue.status == 'Plan to Watch' ? accumulator + 1 : accumulator), 0)
     $('#numPlanning').append(numPlanning)
-   //Genres 
+    //Genres 
     let numAction = list.reduce(((accumulator, currentValue) => currentValue.genre == 'Action & Adventure' ? accumulator + 1 : accumulator), 0);
     $('#numAction').append(numAction);
     let numComedy = list.reduce(((accumulator, currentValue) => currentValue.genre == 'Comedy' ? accumulator + 1 : accumulator), 0);
     $('#numComedy').append(numComedy);
-    let numDoc = list.reduce(((accumulator, currentValue) => currentValue.genre == 'Documentary' ? accumulator + 1 : accumulator), 0);
-    $('#numDoc').append(numDoc);
     let numDrama = list.reduce(((accumulator, currentValue) => currentValue.genre == 'Drama' ? accumulator + 1 : accumulator), 0);
     $('#numDrama').append(numDrama);
-    let numForeign= list.reduce(((accumulator, currentValue) => currentValue.genre == 'Foreign' ? accumulator + 1 : accumulator), 0);
-    $('#numForeign').append(numForeign);
     let numHorror = list.reduce(((accumulator, currentValue) => currentValue.genre == 'Horror' ? accumulator + 1 : accumulator), 0);
     $('#numHorror').append(numHorror);
     let numRomance = list.reduce(((accumulator, currentValue) => currentValue.genre == 'Romance' ? accumulator + 1 : accumulator), 0);
@@ -64,9 +61,6 @@ function showValues() {
     $('#numScience').append(numScience);
     let numThriller = list.reduce(((accumulator, currentValue) => currentValue.genre == 'Thriller' ? accumulator + 1 : accumulator), 0);
     $('#numThriller').append(numThriller);
-    let numWestern = list.reduce(((accumulator, currentValue) => currentValue.genre == 'Western' ? accumulator + 1 : accumulator), 0);
-    $('#numWestern').append(numWestern);
-
 
   }
 };
@@ -100,17 +94,32 @@ function showEntries() {
         const search_query = item.name.replace(/\s/g, '+')
         item.link = 'https://www.youtube.com/results?search_query=' + search_query + ' trailer'
       }
-    let newText = document.createElement('li');
-    newText.addEventListener('click', 
+    
+    //Initialize Variables
+    let newText = document.createElement('li')
+    let deleteButton = document.createElement('button')
+    deleteButton.setAttribute("id", "delete");
+    let content = document.createElement('li')
+
+    content.addEventListener('click', 
       function (event) {
         event.preventDefault()
-        if (confirm('Would you like to open trailer for this program?')) {
+        if (confirm('You are about to open a new window. Please confirm.')) {
           window.open(item.link)
         }
-      }, 
+      },
       false)
-    newText.innerHTML = text;
-    // Add it to the unordered list
+    content.innerHTML = text
+    content.className = 'itemText'
+    deleteButton.onclick = function() { 
+      let listIndex = Array.prototype.indexOf.call(newText.parentNode, newText)
+      list.splice(0, 1)
+      newText.parentNode.removeChild(newText) 
+    }
+    deleteButton.innerHTML = 'X'
+    newText.appendChild(deleteButton)
+    newText.appendChild(content)
+    newText.className = 'item'
     parent.append(newText);
-  });
+  })
 }
