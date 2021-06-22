@@ -97,8 +97,9 @@ function showEntries() {
     
     //Initialize Variables
     let newText = document.createElement('li')
-    let deleteButton = document.createElement('button')
-    deleteButton.setAttribute("id", "delete");
+    let deleteBtn = document.createElement('button')
+    //For css customization
+    deleteBtn.setAttribute("id", "delete");
     let content = document.createElement('li')
 
     content.addEventListener('click', 
@@ -111,13 +112,13 @@ function showEntries() {
       false)
     content.innerHTML = text
     content.className = 'itemText'
-    deleteButton.onclick = function() { 
+    deleteBtn.onclick = function() { 
       let listIndex = Array.prototype.indexOf.call(newText.parentNode, newText)
       list.splice(0, 1)
       newText.parentNode.removeChild(newText) 
     }
-    deleteButton.innerHTML = 'X'
-    newText.appendChild(deleteButton)
+    deleteBtn.innerHTML = 'X'
+    newText.appendChild(deleteBtn)
     newText.appendChild(content)
     newText.className = 'item'
     parent.append(newText);
